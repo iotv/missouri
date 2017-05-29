@@ -1,0 +1,10 @@
+package: github.com/iotv/missouri
+import:
+- package: cloud.google.com/go
+  version: 7eaaec940b71769743a0d2848381a596475db704
+  subpackages:
+  - pubsub
+- package: golang.org/x/net
+  version: 48359f4f600b3a2d5cf657458e3f940021631a56
+  subpackages:
+  - context
