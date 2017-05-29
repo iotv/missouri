@@ -8,7 +8,8 @@ import (
 )
 
 func echoMsg(ctx context.Context, msg *pubsub.Message) {
-	fmt.Println(msg.ID)
+	msg.Ack()
+	fmt.Printf("Msg: %v\n", msg.ID)
 }
 
 func main() {
@@ -17,11 +18,19 @@ func main() {
 	client, err := pubsub.NewClient(ctx, projectId)
 
 	if err != nil {
-		log.Fatalf("%v", err)
+		log.Fatalf("Client error: %v", err)
 	}
 
 	subscription := client.Subscription("transcode-raw-videos")
-	subscription.Receive(ctx, echoMsg)
+	exists, err := subscription.Exists(ctx)
 
-	fmt.Println("Hello Missouri")
+	if err != nil {
+		log.Fatalf("Exists error: %v", err)
+	}
+
+	fmt.Printf("%v", exists)
+
+	for {
+		subscription.Receive(ctx, echoMsg)
+	}
 }
