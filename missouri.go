@@ -10,6 +10,7 @@ import (
 func echoMsg(ctx context.Context, msg *pubsub.Message) {
 	msg.Ack()
 	fmt.Printf("Msg: %v\n", msg.ID)
+	fmt.Printf("Data: %s\n", string(msg.Data))
 }
 
 func main() {
@@ -22,13 +23,10 @@ func main() {
 	}
 
 	subscription := client.Subscription("transcode-raw-videos")
-	exists, err := subscription.Exists(ctx)
 
 	if err != nil {
 		log.Fatalf("Exists error: %v", err)
 	}
-
-	fmt.Printf("%v", exists)
 
 	for {
 		subscription.Receive(ctx, echoMsg)
