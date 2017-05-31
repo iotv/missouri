@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -euvo pipefail
+
+gcsfuse --implicit-dirs iotv-1e541.appspot.com /data
+./missouri
