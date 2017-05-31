@@ -20,7 +20,7 @@ type RawVideoCommand struct {
 	OutputDir string
 }
 
-func echoMsg(ctx context.Context, msg *pubsub.Message) {
+func handleMsg(ctx context.Context, msg *pubsub.Message) {
 	msg.Ack()
 	fmt.Printf("Msg: %v\n", msg.ID)
 	fmt.Printf("Data: %s\n", string(msg.Data))
@@ -66,6 +66,6 @@ func main() {
 	fmt.Printf("Subscription Exists: %v\n", exists)
 
 	for {
-		subscription.Receive(ctx, echoMsg)
+		subscription.Receive(ctx, handleMsg)
 	}
 }
